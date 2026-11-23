@@ -1,0 +1,319 @@
+{
+ "campaign": "campaign_full",
+ "seeds": {
+  "eval": {
+   "range": [
+    1,
+    30
+   ]
+  },
+  "cal": {
+   "range": [
+    1001,
+    1010
+   ]
+  }
+ },
+ "repeats": 3,
+ "executor": "simulate",
+ "cost": {
+  "bandwidth_mbps": 1000,
+  "latency_ms": 0.5
+ },
+ "order_seed": 20260101,
+ "defaults": {
+  "graph": {
+   "mode": "hybrid",
+   "n": 10000,
+   "k_neighbors": 8,
+   "spread_factor": 0.2
+  },
+  "scenario": {
+   "anomaly": "both",
+   "missing": "structured",
+   "anomaly_rate": 0.01,
+   "missing_rate": 0.05,
+   "magnitude": [
+    5,
+    10
+   ]
+  },
+  "detector": {
+   "hops": 1,
+   "impute_iters": 2
+  }
+ },
+ "experiments": [
+  {
+   "name": "E0_equivalence",
+   "sweep": {
+    "scenario.anomaly": [
+     "point",
+     "both"
+    ]
+   },
+   "grid": {
+    "method": [
+     "hash",
+     "spatial",
+     "community",
+     "community_refined"
+    ],
+    "k": [
+     2,
+     4,
+     8,
+     16
+    ],
+    "depth": [
+     "required"
+    ]
+   },
+   "seeds": {
+    "eval": {
+     "range": [
+      1,
+      3
+     ]
+    }
+   }
+  },
+  {
+   "name": "E1_halo_ablation",
+   "sweep": {
+    "detector": [
+     {
+      "hops": 1,
+      "impute_iters": 1
+     },
+     {
+      "hops": 1,
+      "impute_iters": 2
+     },
+     {
+      "hops": 2,
+      "impute_iters": 2
+     }
+    ]
+   },
+   "grid": {
+    "method": [
+     "hash",
+     "spatial",
+     "community",
+     "community_refined"
+    ],
+    "k": [
+     4,
+     8,
+     16
+    ],
+    "depth": [
+     0,
+     1,
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "name": "E2_scale_1k",
+   "graph": {
+    "n": 1000
+   },
+   "grid": {
+    "method": [
+     "hash",
+     "spatial",
+     "community",
+     "community_refined"
+    ],
+    "k": [
+     2,
+     4,
+     8,
+     16
+    ],
+    "depth": [
+     0,
+     "required"
+    ]
+   }
+  },
+  {
+   "name": "E2_scale_10k",
+   "grid": {
+    "method": [
+     "hash",
+     "spatial",
+     "community",
+     "community_refined"
+    ],
+    "k": [
+     2,
+     4,
+     8,
+     16
+    ],
+    "depth": [
+     0,
+     "required"
+    ]
+   }
+  },
+  {
+   "name": "E2_scale_100k",
+   "graph": {
+    "n": 100000
+   },
+   "grid": {
+    "method": [
+     "hash",
+     "spatial",
+     "community",
+     "community_refined"
+    ],
+    "k": [
+     4,
+     8,
+     16
+    ],
+    "depth": [
+     0,
+     "required"
+    ]
+   },
+   "seeds": {
+    "eval": {
+     "range": [
+      1,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "name": "E3_overlap",
+   "sweep": {
+    "graph.spread_factor": [
+     0.1,
+     0.2,
+     0.3,
+     0.4,
+     0.5
+    ]
+   },
+   "grid": {
+    "method": [
+     "hash",
+     "spatial",
+     "community",
+     "community_refined"
+    ],
+    "k": [
+     8
+    ],
+    "depth": [
+     0,
+     1,
+     2
+    ]
+   }
+  },
+  {
+   "name": "E4_scenarios",
+   "sweep": {
+    "scenario.anomaly": [
+     "point",
+     "regional",
+     "both"
+    ],
+    "scenario.missing": [
+     "random",
+     "structured"
+    ],
+    "scenario.magnitude": [
+     [
+      3,
+      6
+     ],
+     [
+      5,
+      10
+     ]
+    ]
+   },
+   "grid": {
+    "method": [
+     "hash",
+     "spatial",
+     "community",
+     "community_refined"
+    ],
+    "k": [
+     8
+    ],
+    "depth": [
+     0,
+     "required"
+    ]
+   }
+  },
+  {
+   "name": "E4b_adversarial",
+   "sweep": {
+    "scenario": [
+     {
+      "anomaly": "both",
+      "missing": "structured",
+      "anomaly_rate": 0.05,
+      "missing_rate": 0.05,
+      "magnitude": [
+       5,
+       10
+      ],
+      "placement": {
+       "type": "boundary",
+       "ref_method": "community",
+       "k": "grid",
+       "min_cut_fraction": 0.0
+      }
+     },
+     {
+      "anomaly": "both",
+      "missing": "structured",
+      "anomaly_rate": 0.2,
+      "missing_rate": 0.05,
+      "magnitude": [
+       5,
+       10
+      ],
+      "placement": {
+       "type": "boundary",
+       "ref_method": "community",
+       "k": "grid",
+       "min_cut_fraction": 0.5
+      }
+     }
+    ]
+   },
+   "grid": {
+    "method": [
+     "hash",
+     "spatial",
+     "community",
+     "community_refined"
+    ],
+    "k": [
+     8,
+     16
+    ],
+    "depth": [
+     0,
+     1,
+     2
+    ]
+   }
+  }
+ ]
+}

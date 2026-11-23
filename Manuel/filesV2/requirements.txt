@@ -1,0 +1,13 @@
+# Versiones con las que se verificó el proyecto (pasos 1-6). Python 3.12.
+# Los pasos 1-4 también se verificaron antes con numpy 2.4.4, scipy 1.17.1 y networkx 3.6.1.
+# Mínimos probables (no probados): numpy>=1.24, scipy>=1.10, networkx>=3.0, pandas>=2.0, matplotlib>=3.7.
+numpy==2.5.4
+scipy==1.18.1
+networkx==3.7        # Louvain (partition.py) y modo 'powerlaw' del generador
+pandas==3.0.6        # análisis (analysis.py)
+matplotlib==3.11.2   # figuras (analysis.py)
+pytest>=7.0          # para correr los tests
+
+# Opcionales (nada de lo anterior los necesita):
+# pyyaml             # configuraciones .yaml del orquestador (las .json no requieren nada)
+# pymetis            # habilita el método 'metis' de partition.py (sin verificar)

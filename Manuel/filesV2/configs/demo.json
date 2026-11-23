@@ -1,0 +1,27 @@
+{
+  "campaign": "demo",
+  "seeds": {"eval": {"range": [1, 3]}, "cal": {"range": [1001, 1002]}},
+  "repeats": 1,
+  "executor": "simulate",
+  "cost": {"bandwidth_mbps": 1000, "latency_ms": 0.5},
+  "order_seed": 2024,
+  "defaults": {
+    "graph": {"mode": "hybrid", "n": 1500, "k_neighbors": 8, "spread_factor": 0.2},
+    "scenario": {"anomaly": "both", "missing": "structured", "anomaly_rate": 0.01, "missing_rate": 0.05, "magnitude": [5, 10]},
+    "detector": {"hops": 1, "impute_iters": 2}
+  },
+  "experiments": [
+    {"name": "E1_demo_halo",
+     "grid": {"method": ["hash", "community"], "k": [4], "depth": [0, 1, "required"]}},
+    {"name": "E3_demo_overlap",
+     "sweep": {"graph.spread_factor": [0.1, 0.4]},
+     "grid": {"method": ["spatial", "community"], "k": [4], "depth": [0, "required"]},
+     "seeds": {"eval": {"range": [1, 2]}}},
+    {"name": "E4b_demo_adversarial",
+     "scenario": {"anomaly": "both", "missing": "structured", "anomaly_rate": 0.1, "missing_rate": 0.05,
+                  "magnitude": [5, 10],
+                  "placement": {"type": "boundary", "ref_method": "community", "k": "grid", "min_cut_fraction": 0.25}},
+     "grid": {"method": ["hash", "community"], "k": [4], "depth": [0, 1]},
+     "seeds": {"eval": {"range": [1, 2]}}}
+  ]
+}
